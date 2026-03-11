@@ -5,9 +5,6 @@
 package transcesar.model;
 
 
-public class Calculable {
-    
-    public interface Calculable {
+public interface Calculable {
     double calcularTotal();
-}
 }
