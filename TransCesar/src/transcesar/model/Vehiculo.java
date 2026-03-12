@@ -21,7 +21,7 @@ public abstract class Vehiculo implements Imprimible {
 
     public String getRuta() {
         return ruta;
-    }
+    } 
 
     public int getCapacidadMaxima() {
         return capacidadMaxima;
