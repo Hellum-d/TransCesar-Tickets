@@ -2,12 +2,12 @@ package transcesar.model;
 
 public abstract class Vehiculo implements Imprimible {
     protected String placa;
-    protected String ruta;
+    protected Ruta ruta;
     protected int capacidadMaxima;
     protected int pasajerosActuales;
     protected boolean disponible;
 
-    public Vehiculo(String placa, String ruta, int capacidadMaxima) {
+    public Vehiculo(String placa, Ruta ruta, int capacidadMaxima) {
         this.placa = placa;
         this.ruta = ruta;
         this.capacidadMaxima = capacidadMaxima;
@@ -19,7 +19,7 @@ public abstract class Vehiculo implements Imprimible {
         return placa;
     }
 
-    public String getRuta() {
+    public Ruta getRuta() {
         return ruta;
     } 
 
