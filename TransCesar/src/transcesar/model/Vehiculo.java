@@ -2,7 +2,7 @@ package transcesar.model;
 
 public abstract class Vehiculo implements Imprimible {
     protected String placa;
-    protected Ruta ruta;
+    protected Ruta ruta; 
     protected int capacidadMaxima;
     protected int pasajerosActuales;
     protected boolean disponible;

@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class menuPrincipal {
       Scanner sc = new Scanner(System.in);
 
-    public void mostrarMenu() {
+    public void mostrarMenu() { 
         int opcion;
         do {
             System.out.println("\n===== TRANSCESAR S.A.S. =====");

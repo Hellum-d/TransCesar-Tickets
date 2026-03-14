@@ -13,7 +13,7 @@ public class Pasajero {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-   
+    
     public String getNombre() { 
         return nombre;
     }

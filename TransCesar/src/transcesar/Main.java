@@ -1,9 +1,9 @@
 package transcesar;
 
 import transcesar.model.*;
-import java.util.ArrayList;
+import java.util.ArrayList; 
 
-public class Main {
+public class Main { 
     public static void main(String[] args) {
         System.out.println("=== SISTEMA TRANSCESAR: PRUEBA DE RUTAS DETALLADAS ===");
 
