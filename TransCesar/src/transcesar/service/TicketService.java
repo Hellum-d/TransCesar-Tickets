@@ -24,6 +24,8 @@ public class TicketService {
     public int calcularEdad(LocalDate fechaNacimiento) {
         return Period.between(fechaNacimiento, LocalDate.now()).getYears();
     }
+    
+    //validacion ticket
 
     public int contarTicketsHoy(Pasajero pasajero) {
         int contador = 0;
