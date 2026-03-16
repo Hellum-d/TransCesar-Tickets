@@ -8,7 +8,7 @@ public class Main {
         System.out.println("=== SISTEMA TRANSCESAR: PRUEBA DE RUTAS DETALLADAS ===");
 
         Ruta rutaNorte = new Ruta("RT01", "Valledupar", "Barranquilla", 230.5, 240);
-        Ruta rutaSur = new Ruta("RT02", "Valledupar", "Bogotá", 850.0, 960);
+        Ruta rutaSur = new Ruta("RT02", "Valledupar", "Bogota", 850.0, 960);
 
  
         Vehiculo bus1 = new Bus("UXX-123", rutaNorte);
@@ -24,6 +24,6 @@ public class Main {
         buseta1.imprimirDetalle();
 
         System.out.println("======================================================");
-        System.out.println("¡Prueba de Integración Exitosa!");
+        System.out.println("Prueba de Integracion Exitosa!");
     }
 }
