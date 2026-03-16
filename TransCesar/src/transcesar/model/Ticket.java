@@ -6,22 +6,27 @@ package transcesar.model;
 
 public class Ticket {
 
+    private Vehiculo vehiculo;
     private Pasajero pasajero;
     private double tarifaBase;
 
-    public Ticket(Pasajero pasajero, double tarifaBase) {
+    public Ticket(Vehiculo vehiculo, Pasajero pasajero, double tarifaBase){
+        this.vehiculo = vehiculo;
         this.pasajero = pasajero;
         this.tarifaBase = tarifaBase;
     }
 
-    public double calcularTotal() {
+    public Vehiculo getVehiculo(){
+        return vehiculo;
+    }
 
+    public Pasajero getPasajero(){
+        return pasajero;
+    }
+
+    public double calcularTotal(){
         double descuento = pasajero.calcularDescuento();
-
         return tarifaBase - (tarifaBase * descuento);
     }
 
-    public Pasajero getPasajero() {
-        return pasajero;
-    }
 }
