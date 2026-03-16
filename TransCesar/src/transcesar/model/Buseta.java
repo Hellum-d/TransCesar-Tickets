@@ -7,7 +7,7 @@ public class Buseta extends Vehiculo {
         super(placa, ruta, 19);
     }
 
-    public double getTarifaBase() {
+    public double getTarifaBase() { 
         return TARIFA_BASE;
     }
 

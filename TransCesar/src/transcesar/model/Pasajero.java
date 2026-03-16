@@ -1,28 +1,12 @@
 package transcesar.model;
 
-import java.time.LocalDate; 
+import java.time.LocalDate;
 
-public class Pasajero {
-    private String nombre;
-    private String identificacion;
-    private LocalDate fechaNacimiento; 
+public abstract class Pasajero extends Persona {
 
     public Pasajero(String nombre, String identificacion, LocalDate fechaNacimiento) {
-        this.nombre = nombre;
-        this.identificacion = identificacion;
-        this.fechaNacimiento = fechaNacimiento;
+        super(nombre, identificacion, fechaNacimiento);
     }
 
-   
-    public String getNombre() { 
-        return nombre;
-    }
-
-    public String getIdentificacion() {
-        return identificacion;
-    }
-
-    public LocalDate getFechaNacimiento() {
-        return fechaNacimiento;
-    }
+    public abstract double calcularDescuento();
 }

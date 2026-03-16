@@ -1,7 +1,7 @@
 package transcesar.model;
 
 public class Bus extends Vehiculo {
-    private final double TARIFA_BASE = 15000.0;
+    private final double TARIFA_BASE = 15000.0; 
 
     public Bus(String placa, Ruta ruta) {
         super(placa, ruta, 45);

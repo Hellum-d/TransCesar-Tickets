@@ -4,20 +4,20 @@
  */
 package transcesar.dao;
 
-import transcesar.model.Ticket;
+import transcesar.model.Persona;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TicketDAO {
+public class PersonaDAO {
 
-    private List<Ticket> tickets = new ArrayList<>();
+    private List<Persona> personas = new ArrayList<>();
 
-    public void guardar(Ticket ticket){
-        tickets.add(ticket);
+    public void guardar(Persona persona){
+        personas.add(persona);
     }
 
-    public List<Ticket> listar(){
-        return tickets;
+    public List<Persona> listar(){
+        return personas;
     }
 
 }

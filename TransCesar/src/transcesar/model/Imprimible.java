@@ -5,6 +5,6 @@
 package transcesar.model;
 
 
-public interface Imprimible {
+public interface Imprimible { 
     void imprimirDetalle();
 }

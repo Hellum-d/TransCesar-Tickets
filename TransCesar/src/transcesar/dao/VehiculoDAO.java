@@ -1,13 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package transcesar.dao;
 
-/**
- *
- * @author Hewlett-Packard
- */
+import transcesar.model.Vehiculo;
+import java.util.ArrayList;
+import java.util.List;
+
 public class VehiculoDAO {
-    
+    private List<Vehiculo> listaVehiculos = new ArrayList<>();
+
+    public void guardar(Vehiculo v) {
+        listaVehiculos.add(v);
+    } 
+
+    public List<Vehiculo> obtenerTodos() {
+        return listaVehiculos;
+    }
 }

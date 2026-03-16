@@ -8,7 +8,7 @@ public class Ruta {
     private int tiempoMinutos;
 
     public Ruta(String codigo, String origen, String destino, double distanciaKm, int tiempoMinutos) {
-        this.codigo = codigo;
+        this.codigo = codigo; 
         this.origen = origen;
         this.destino = destino;
         this.distanciaKm = distanciaKm;
