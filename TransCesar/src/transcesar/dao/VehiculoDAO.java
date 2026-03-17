@@ -26,8 +26,8 @@ public class VehiculoDAO {
     private void guardarEnArchivo(Vehiculo v) {
         try (FileWriter fw = new FileWriter(ARCHIVO, true);
              BufferedWriter bw = new BufferedWriter(fw)) {
-            bw.write(v.getPlaca() + ";" + v.getClass().getSimpleName() + 
-                     ";" + v.getCapacidadMaxima() + ";" + v.getTarifaBase());
+            bw.write(v.getPlaca() + ";" + v.getClass().getSimpleName() +
+                     ";" + v.getCapacidadMaxima());
             bw.newLine();
         } catch (IOException e) {
             System.out.println("Error al guardar vehículo: " + e.getMessage());
