@@ -14,6 +14,6 @@ public class PasajeroEstudiante extends Pasajero {
 
     @Override
     public double calcularDescuento() {
-        return 0.5;
+        return 0.15;
     }
 }
