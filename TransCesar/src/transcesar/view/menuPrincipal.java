@@ -3,6 +3,7 @@ package transcesar.view;
 import transcesar.model.*;
 import transcesar.service.VehiculoService;
 import transcesar.service.TicketService;
+import transcesar.service.ReservaService;
 import transcesar.dao.TicketDAO;
 import java.time.LocalDate;
 import java.util.Scanner;
@@ -13,6 +14,7 @@ public class menuPrincipal {
     private Scanner scanner = new Scanner(System.in);
     private VehiculoService vehiculoService = new VehiculoService();
     private TicketService ticketService = new TicketService();
+    private ReservaService reservaService = new ReservaService();
     private TicketDAO ticketDAO = new TicketDAO();
 
     public void mostrarMenu() {
@@ -24,6 +26,7 @@ public class menuPrincipal {
             System.out.println("3. Gestión de Pasajeros");
             System.out.println("4. Venta de Tickets");
             System.out.println("5. Reportes y Estadísticas");
+            System.out.println("6. Gestión de Reservas");
             System.out.println("0. Salir");
             System.out.print("Seleccione una opción: ");
             opcion = scanner.nextInt();
@@ -35,6 +38,7 @@ public class menuPrincipal {
                 case 3: System.out.println(">> Módulo de Pasajeros (en construcción)"); break;
                 case 4: menuVentaTickets(); break;
                 case 5: menuReportes(); break;
+                case 6: menuReservas(); break;
                 case 0: System.out.println("Cerrando sistema..."); break;
                 default: System.out.println("Opción no válida.");
             }
@@ -179,6 +183,57 @@ public class menuPrincipal {
                 break;
             default:
                 System.out.println("Opción no válida.");
+        }
+    }
+
+    private void menuReservas() {
+        System.out.println("\n--- GESTIÓN DE RESERVAS ---");
+        System.out.println("1. Hacer reserva");
+        System.out.println("2. Cancelar reserva");
+        System.out.println("3. Listar reservas");
+        System.out.print("Seleccione: ");
+        int op = scanner.nextInt();
+        scanner.nextLine();
+
+        if (op == 3) {
+            List<Reserva> reservas = reservaService.listarReservas();
+            if (reservas.isEmpty()) {
+                System.out.println("No hay reservas registradas.");
+            } else {
+                for (Reserva r : reservas) {
+                    r.imprimirDetalle();
+                }
+            }
+            return;
+        }
+
+        List<Vehiculo> vehiculos = vehiculoService.consultarVehiculos();
+        if (vehiculos.isEmpty()) {
+            System.out.println("No hay vehículos registrados.");
+            return;
+        }
+
+        System.out.println("Vehículos disponibles:");
+        for (int i = 0; i < vehiculos.size(); i++) {
+            System.out.println(i + ". " + vehiculos.get(i).getPlaca());
+        }
+        System.out.print("Seleccione vehículo: ");
+        int idx = scanner.nextInt();
+        scanner.nextLine();
+        Vehiculo vehiculo = vehiculos.get(idx);
+
+        System.out.print("Identificación del pasajero: ");
+        String id = scanner.nextLine();
+        System.out.print("Nombre del pasajero: ");
+        String nombre = scanner.nextLine();
+        System.out.print("Fecha nacimiento (YYYY-MM-DD): ");
+        LocalDate fechaNac = LocalDate.parse(scanner.nextLine());
+        Pasajero pasajero = new PasajeroRegular(nombre, id, fechaNac);
+
+        switch (op) {
+            case 1: reservaService.hacerReserva(pasajero, vehiculo); break;
+            case 2: reservaService.cancelarReserva(pasajero, vehiculo); break;
+            default: System.out.println("Opción no válida.");
         }
     }
 }
