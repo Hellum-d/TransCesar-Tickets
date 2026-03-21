@@ -16,21 +16,18 @@ public class Ticket implements Calculable, Imprimible {
         this.fechaCompra = LocalDate.now();
     }
 
-    public Vehiculo getVehiculo() {
-        return vehiculo;
+    // Constructor para carga desde archivo (con fecha ya guardada)
+    public Ticket(Vehiculo vehiculo, Pasajero pasajero, double tarifaBase, LocalDate fechaCompra) {
+        this.vehiculo = vehiculo;
+        this.pasajero = pasajero;
+        this.tarifaBase = tarifaBase;
+        this.fechaCompra = fechaCompra;
     }
 
-    public Pasajero getPasajero() {
-        return pasajero;
-    }
-
-    public LocalDate getFechaCompra() {
-        return fechaCompra;
-    }
-
-    public double getTarifaBase() {
-        return tarifaBase;
-    }
+    public Vehiculo getVehiculo() { return vehiculo; }
+    public Pasajero getPasajero() { return pasajero; }
+    public LocalDate getFechaCompra() { return fechaCompra; }
+    public double getTarifaBase() { return tarifaBase; }
 
     @Override
     public double calcularTotal() {
@@ -41,9 +38,11 @@ public class Ticket implements Calculable, Imprimible {
     @Override
     public void imprimirDetalle() {
         System.out.println("=== TICKET ===");
-        System.out.println("Pasajero: " + pasajero.getNombre());
-        System.out.println("Vehículo: " + vehiculo.getPlaca());
-        System.out.println("Fecha: " + fechaCompra);
-        System.out.println("Valor: $" + calcularTotal());
+        System.out.println("Pasajero    : " + pasajero.getNombre() + " (" + pasajero.getIdentificacion() + ")");
+        System.out.println("Tipo        : " + pasajero.getClass().getSimpleName());
+        System.out.println("Vehículo    : " + vehiculo.getPlaca() + " [" + vehiculo.getClass().getSimpleName() + "]");
+        System.out.println("Fecha compra: " + fechaCompra);
+        System.out.println("Valor final : $" + String.format("%.0f", calcularTotal()));
+        System.out.println("----------------------------");
     }
 }
