@@ -99,4 +99,37 @@ public class ReservaService {
         }
         return false;
     }
+    public void convertirReservaATicket(Pasajero pasajero, Vehiculo vehiculo) {
+
+    for (Reserva r : reservaDAO.listar()) {
+
+        if (r.getPasajero().getIdentificacion().equals(pasajero.getIdentificacion()) &&
+            r.getVehiculo().getPlaca().equals(vehiculo.getPlaca()) &&
+            r.getEstado() == Reserva.Estado.ACTIVA) {
+
+            r.setEstado(Reserva.Estado.CANCELADA);
+
+            double precio = vehiculo.getTarifaBase();
+
+
+            precio = precio - (precio * pasajero.calcularDescuento());
+
+            if (esFestivo()) {
+                precio *= 1.2; 
+            }
+
+            System.out.println("=== TICKET GENERADO ===");
+            System.out.println("Pasajero: " + pasajero.getNombre());
+            System.out.println("Vehículo: " + vehiculo.getPlaca());
+            System.out.println("Precio final: " + precio);
+
+            return;
+        }
+    }
+
+    System.out.println("No se encontró una reserva activa para convertir.");
+}
+    private boolean esFestivo() {
+    return false;
+}
 }

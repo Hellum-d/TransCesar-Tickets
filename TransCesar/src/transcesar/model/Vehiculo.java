@@ -7,12 +7,15 @@ public abstract class Vehiculo implements Imprimible {
     protected int pasajerosActuales;
     protected boolean disponible;
 
+    protected double tarifaBase;
+
     public Vehiculo(String placa, Ruta ruta, int capacidadMaxima) {
         this.placa = placa;
         this.ruta = ruta;
         this.capacidadMaxima = capacidadMaxima;
         this.pasajerosActuales = 0;
         this.disponible = true;
+        this.tarifaBase = 10000; 
     }
 
     public String getPlaca() {
@@ -33,6 +36,14 @@ public abstract class Vehiculo implements Imprimible {
 
     public boolean isDisponible() {
         return disponible;
+    }
+
+    public double getTarifaBase() {
+        return tarifaBase;
+    }
+
+    public void setTarifaBase(double tarifaBase) {
+        this.tarifaBase = tarifaBase;
     }
 
     public void setPasajerosActuales(int pasajerosActuales) {
