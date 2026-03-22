@@ -16,7 +16,7 @@ public class ReservaService {
             System.out.println("No hay cupos disponibles para reservar.");
             return false;
         }
-        if (tieneReservaActiva(pasajero, vehiculo)) {
+        if (tieneReservaDuplicada(pasajero, vehiculo)) {
             System.out.println("El pasajero ya tiene una reserva activa en este vehículo.");
             return false;
         }
@@ -63,5 +63,15 @@ public class ReservaService {
         }
     }
     return contador;
+}
+    private boolean tieneReservaDuplicada(Pasajero pasajero, Vehiculo vehiculo) {
+    for (Reserva r : reservaDAO.listar()) {
+        if (r.getPasajero().getIdentificacion().equals(pasajero.getIdentificacion()) &&
+            r.getVehiculo().getPlaca().equals(vehiculo.getPlaca()) &&
+            r.getEstado() == Reserva.Estado.ACTIVA) {
+            return true;
+        }
+    }
+    return false;
 }
 }
