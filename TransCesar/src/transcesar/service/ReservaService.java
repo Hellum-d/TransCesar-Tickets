@@ -11,7 +11,8 @@ public class ReservaService {
     private ReservaDAO reservaDAO = new ReservaDAO();
 
     public boolean hacerReserva(Pasajero pasajero, Vehiculo vehiculo) {
-        if (vehiculo.getPasajerosActuales() >= vehiculo.getCapacidadMaxima()) {
+        int ocupacionTotal = vehiculo.getPasajerosActuales() + contarReservasActivas(vehiculo);
+        if (ocupacionTotal >= vehiculo.getCapacidadMaxima()) {
             System.out.println("No hay cupos disponibles para reservar.");
             return false;
         }
@@ -53,4 +54,14 @@ public class ReservaService {
     public List<Reserva> listarReservas() {
         return reservaDAO.listar();
     }
+    private int contarReservasActivas(Vehiculo vehiculo) {
+    int contador = 0;
+    for (Reserva r : reservaDAO.listar()) {
+        if (r.getVehiculo().getPlaca().equals(vehiculo.getPlaca()) &&
+            r.getEstado() == Reserva.Estado.ACTIVA) {
+            contador++;
+        }
+    }
+    return contador;
+}
 }
