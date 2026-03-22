@@ -47,7 +47,6 @@ public class menuPrincipal {
         } while (opcion != 0);
     }
 
-    // ─── Leer fecha con validación ───────────────────────────────────────────
     private LocalDate leerFechaNacimiento() {
         while (true) {
             System.out.print("Fecha de nacimiento (YYYY-MM-DD): ");
@@ -69,7 +68,23 @@ public class menuPrincipal {
         }
     }
 
-    // ─── Vehículos ───────────────────────────────────────────────────────────
+    private LocalDate leerFechaViaje() {
+        while (true) {
+            System.out.print("Fecha del viaje (YYYY-MM-DD): ");
+            String entrada = scanner.nextLine().trim();
+            try {
+                LocalDate fecha = LocalDate.parse(entrada);
+                if (fecha.isBefore(LocalDate.now())) {
+                    System.out.println("Error: la fecha del viaje no puede ser pasada. Intente de nuevo.");
+                    continue;
+                }
+                return fecha;
+            } catch (DateTimeParseException e) {
+                System.out.println("Formato inválido. Use YYYY-MM-DD (ej: 2026-03-25).");
+            }
+        }
+    }
+
     private void menuVehiculos() {
         System.out.println("\n--- GESTIÓN DE VEHÍCULOS ---");
         System.out.println("1. Registrar Buseta");
@@ -115,7 +130,6 @@ public class menuPrincipal {
         vehiculoService.registrarVehiculo(v);
     }
 
-    // ─── Conductores ─────────────────────────────────────────────────────────
     private void menuConductores() {
         System.out.println("\n--- GESTIÓN DE CONDUCTORES ---");
         System.out.println("1. Registrar conductor");
@@ -131,10 +145,10 @@ public class menuPrincipal {
             } else {
                 for (Conductor c : lista) {
                     System.out.println("-----------------------------");
-                    System.out.println("Nombre       : " + c.getNombre());
+                    System.out.println("Nombre        : " + c.getNombre());
                     System.out.println("Identificación: " + c.getIdentificacion());
-                    System.out.println("Nacimiento   : " + c.getFechaNacimiento());
-                    System.out.println("Licencia     : " + c.getLicencia());
+                    System.out.println("Nacimiento    : " + c.getFechaNacimiento());
+                    System.out.println("Licencia      : " + c.getLicencia());
                 }
                 System.out.println("-----------------------------");
             }
@@ -150,7 +164,6 @@ public class menuPrincipal {
             System.out.println("Categoría de licencia (B1 / B2 / C1 / C2): ");
             System.out.print("Seleccione: ");
             String licencia = scanner.nextLine().trim().toUpperCase();
-
             Conductor c = new Conductor(nombre, id, fechaNac, licencia);
             personaService.registrarConductor(c);
         } else {
@@ -158,7 +171,6 @@ public class menuPrincipal {
         }
     }
 
-    // ─── Pasajeros ───────────────────────────────────────────────────────────
     private void menuPasajeros() {
         System.out.println("\n--- GESTIÓN DE PASAJEROS ---");
         System.out.println("1. Registrar pasajero");
@@ -175,11 +187,11 @@ public class menuPrincipal {
                 for (Pasajero p : lista) {
                     int edad = Period.between(p.getFechaNacimiento(), LocalDate.now()).getYears();
                     System.out.println("-----------------------------");
-                    System.out.println("Nombre       : " + p.getNombre());
+                    System.out.println("Nombre        : " + p.getNombre());
                     System.out.println("Identificación: " + p.getIdentificacion());
-                    System.out.println("Edad         : " + edad + " años");
-                    System.out.println("Tipo         : " + p.getClass().getSimpleName());
-                    System.out.println("Descuento    : " + (int)(p.calcularDescuento() * 100) + "%");
+                    System.out.println("Edad          : " + edad + " años");
+                    System.out.println("Tipo          : " + p.getClass().getSimpleName());
+                    System.out.println("Descuento     : " + (int)(p.calcularDescuento() * 100) + "%");
                 }
                 System.out.println("-----------------------------");
             }
@@ -192,7 +204,6 @@ public class menuPrincipal {
             System.out.print("Identificación (cédula): ");
             String id = scanner.nextLine().trim();
             LocalDate fechaNac = leerFechaNacimiento();
-
             int edad = Period.between(fechaNac, LocalDate.now()).getYears();
             Pasajero p;
             if (edad >= 60) {
@@ -215,16 +226,13 @@ public class menuPrincipal {
         }
     }
 
-    // ─── Venta de Tickets ────────────────────────────────────────────────────
     private void menuVentaTickets() {
         System.out.println("\n--- VENTA DE TICKETS ---");
-
         List<Vehiculo> vehiculos = vehiculoService.consultarVehiculos();
         if (vehiculos.isEmpty()) {
             System.out.println("No hay vehículos registrados. Registre uno primero.");
             return;
         }
-
         System.out.println("Vehículos disponibles:");
         for (int i = 0; i < vehiculos.size(); i++) {
             Vehiculo v = vehiculos.get(i);
@@ -240,13 +248,11 @@ public class menuPrincipal {
             return;
         }
         Vehiculo vehiculo = vehiculos.get(idx);
-
         System.out.print("Nombre pasajero: ");
         String nombre = scanner.nextLine().trim();
         System.out.print("Identificación: ");
         String id = scanner.nextLine().trim();
         LocalDate fechaNac = leerFechaNacimiento();
-
         int edad = Period.between(fechaNac, LocalDate.now()).getYears();
         Pasajero pasajero;
         if (edad >= 60) {
@@ -266,18 +272,14 @@ public class menuPrincipal {
                 default: pasajero = new PasajeroRegular(nombre, id, fechaNac); break;
             }
         }
-
-        // La tarifa se toma automáticamente del tipo de vehículo
         double tarifa;
-        if (vehiculo instanceof Buseta)   tarifa = ((Buseta)vehiculo).getTarifaBase();
-        else if (vehiculo instanceof MicroBus) tarifa = ((MicroBus)vehiculo).getTarifaBase();
-        else                              tarifa = ((Bus)vehiculo).getTarifaBase();
-
+        if (vehiculo instanceof Buseta) tarifa = ((Buseta) vehiculo).getTarifaBase();
+        else if (vehiculo instanceof MicroBus) tarifa = ((MicroBus) vehiculo).getTarifaBase();
+        else tarifa = ((Bus) vehiculo).getTarifaBase();
         System.out.println("Tarifa base del vehículo: $" + String.format("%.0f", tarifa));
         ticketService.venderTicket(vehiculo, pasajero, tarifa);
     }
 
-    // ─── Reportes ────────────────────────────────────────────────────────────
     private void menuReportes() {
         System.out.println("\n--- REPORTES Y ESTADÍSTICAS ---");
         System.out.println("1. Listar todos los tickets");
@@ -288,7 +290,6 @@ public class menuPrincipal {
         System.out.print("Seleccione: ");
         int op = scanner.nextInt();
         scanner.nextLine();
-
         switch (op) {
             case 1:
                 List<Ticket> tickets = ticketService.listarTickets();
@@ -300,21 +301,16 @@ public class menuPrincipal {
                 }
                 break;
             case 2:
-                int total = ticketService.contarTotalTickets();
-                double recaudo = ticketService.calcularRecaudoTotal();
-                System.out.println("Total de tickets vendidos: " + total);
-                System.out.println("Total recaudado          : $" + String.format("%.0f", recaudo));
+                System.out.println("Total de tickets vendidos: " + ticketService.contarTotalTickets());
+                System.out.println("Total recaudado          : $" + String.format("%.0f", ticketService.calcularRecaudoTotal()));
                 break;
             case 3:
                 ticketService.contarPasajerosPorTipo();
                 break;
             case 4:
                 Vehiculo top = ticketService.vehiculoMasUsado();
-                if (top != null) {
-                    top.imprimirDetalle();
-                } else {
-                    System.out.println("No hay datos suficientes.");
-                }
+                if (top != null) top.imprimirDetalle();
+                else System.out.println("No hay datos suficientes.");
                 break;
             case 5:
                 int totalHoy = 0;
@@ -335,52 +331,107 @@ public class menuPrincipal {
         }
     }
 
-    // ─── Reservas ────────────────────────────────────────────────────────────
     private void menuReservas() {
         System.out.println("\n--- GESTIÓN DE RESERVAS ---");
         System.out.println("1. Hacer reserva");
-        System.out.println("2. Cancelar reserva");
-        System.out.println("3. Listar reservas");
+        System.out.println("2. Cancelar reserva por código");
+        System.out.println("3. Listar reservas activas");
+        System.out.println("4. Historial de reservas de un pasajero");
+        System.out.println("5. Convertir reserva en ticket");
+        System.out.println("6. Verificar reservas vencidas");
         System.out.print("Seleccione: ");
         int op = scanner.nextInt();
         scanner.nextLine();
 
-        if (op == 3) {
-            List<Reserva> reservas = reservaService.listarReservas();
-            if (reservas.isEmpty()) {
-                System.out.println("No hay reservas registradas.");
-            } else {
-                for (Reserva r : reservas) r.imprimirDetalle();
-            }
-            return;
-        }
-
-        List<Vehiculo> vehiculos = vehiculoService.consultarVehiculos();
-        if (vehiculos.isEmpty()) {
-            System.out.println("No hay vehículos registrados.");
-            return;
-        }
-
-        System.out.println("Vehículos disponibles:");
-        for (int i = 0; i < vehiculos.size(); i++) {
-            System.out.println(i + ". " + vehiculos.get(i).getPlaca());
-        }
-        System.out.print("Seleccione vehículo: ");
-        int idx = scanner.nextInt();
-        scanner.nextLine();
-        Vehiculo vehiculo = vehiculos.get(idx);
-
-        System.out.print("Identificación del pasajero: ");
-        String id = scanner.nextLine().trim();
-        System.out.print("Nombre del pasajero: ");
-        String nombre = scanner.nextLine().trim();
-        LocalDate fechaNac = leerFechaNacimiento();
-        Pasajero pasajero = new PasajeroRegular(nombre, id, fechaNac);
-
         switch (op) {
-            case 1: reservaService.hacerReserva(pasajero, vehiculo); break;
-            case 2: reservaService.cancelarReserva(pasajero, vehiculo); break;
-            default: System.out.println("Opción no válida.");
+            case 1:
+                List<Vehiculo> vehiculos = vehiculoService.consultarVehiculos();
+                if (vehiculos.isEmpty()) {
+                    System.out.println("No hay vehículos registrados.");
+                    return;
+                }
+                System.out.println("Vehículos disponibles:");
+                for (int i = 0; i < vehiculos.size(); i++) {
+                    Vehiculo v = vehiculos.get(i);
+                    System.out.println(i + ". " + v.getPlaca() +
+                        " [" + v.getClass().getSimpleName() + "]" +
+                        " | Cupos: " + (v.getCapacidadMaxima() - v.getPasajerosActuales()) + " disponibles");
+                }
+                System.out.print("Seleccione vehículo: ");
+                int idx = scanner.nextInt();
+                scanner.nextLine();
+                if (idx < 0 || idx >= vehiculos.size()) {
+                    System.out.println("Número inválido.");
+                    return;
+                }
+                Vehiculo vehiculo = vehiculos.get(idx);
+                System.out.print("Nombre del pasajero: ");
+                String nombre = scanner.nextLine().trim();
+                System.out.print("Identificación: ");
+                String id = scanner.nextLine().trim();
+                LocalDate fechaNac = leerFechaNacimiento();
+                int edad = Period.between(fechaNac, LocalDate.now()).getYears();
+                Pasajero pasajero;
+                if (edad >= 60) {
+                    pasajero = new PasajeroAdultoMayor(nombre, id, fechaNac);
+                } else {
+                    System.out.println("Tipo: 1. Regular  2. Estudiante");
+                    System.out.print("Seleccione: ");
+                    int tipo = scanner.nextInt();
+                    scanner.nextLine();
+                    pasajero = (tipo == 2)
+                        ? new PasajeroEstudiante(nombre, id, fechaNac)
+                        : new PasajeroRegular(nombre, id, fechaNac);
+                }
+                LocalDate fechaViaje = leerFechaViaje();
+                reservaService.hacerReserva(pasajero, vehiculo, fechaViaje);
+                break;
+
+            case 2:
+                System.out.print("Código de reserva (ej: RES-001): ");
+                String codigo = scanner.nextLine().trim().toUpperCase();
+                reservaService.cancelarPorCodigo(codigo);
+                break;
+
+            case 3:
+                List<Reserva> activas = reservaService.listarReservasActivas();
+                if (activas.isEmpty()) {
+                    System.out.println("No hay reservas activas.");
+                } else {
+                    System.out.println("Reservas activas: " + activas.size());
+                    for (Reserva r : activas) r.imprimirDetalle();
+                }
+                break;
+
+            case 4:
+                System.out.print("Identificación del pasajero: ");
+                String cedula = scanner.nextLine().trim();
+                List<Reserva> historial = reservaService.historialPasajero(cedula);
+                if (historial.isEmpty()) {
+                    System.out.println("No hay reservas para ese pasajero.");
+                } else {
+                    System.out.println("Historial de reservas (" + historial.size() + " en total):");
+                    for (Reserva r : historial) r.imprimirDetalle();
+                }
+                break;
+
+            case 5:
+                System.out.print("Código de reserva a convertir (ej: RES-001): ");
+                String codigoConvertir = scanner.nextLine().trim().toUpperCase();
+                reservaService.convertirATicket(codigoConvertir);
+                break;
+
+            case 6:
+                int canceladas = reservaService.cancelarReservasVencidas();
+                if (canceladas == 0) {
+                    System.out.println("No hay reservas vencidas.");
+                } else {
+                    System.out.println(canceladas + " reserva(s) vencida(s) cancelada(s) automáticamente.");
+                }
+                break;
+
+            default:
+                System.out.println("Opción no válida.");
         }
     }
 }
